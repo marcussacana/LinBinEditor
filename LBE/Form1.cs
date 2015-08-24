@@ -301,7 +301,7 @@ namespace LBE
                     if (offset == DialogPos)
                     {
 
-                        int position = Dialogues[id].StartPos;
+                        int position = NewScript.Length;
                         AddDialogue(Dialogues[id].Content, Dialogues[id].AppendLineBreak, Dialogues[id].AppendCLTLineBreak);
                         offset = OriginalDlgs[id].EndPos + 1;
                         string hex = Tools.IntToHex(position - ScriptTreeOffsetPos);
