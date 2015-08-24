@@ -128,6 +128,8 @@
             // 
             this.ReplaceJapChars.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ReplaceJapChars.AutoSize = true;
+            this.ReplaceJapChars.Checked = true;
+            this.ReplaceJapChars.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ReplaceJapChars.Location = new System.Drawing.Point(115, 388);
             this.ReplaceJapChars.Name = "ReplaceJapChars";
             this.ReplaceJapChars.Size = new System.Drawing.Size(147, 17);

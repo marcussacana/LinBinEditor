@@ -173,18 +173,52 @@ namespace LBE
             if (Generated)
             {
                 Generated = false;
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Title = "Save as..";
-                sfd.Filter = "All Danganronpa Script files |*.lin";
-                sfd.FileName = System.IO.Path.GetFileName(openFileDialog1.FileName);
-                DialogResult dr = sfd.ShowDialog();
-                if (dr == DialogResult.OK) {
-                    System.IO.File.WriteAllBytes(sfd.FileName,file);
-                } 
+                if (Test(NewScript, ScriptTreeOffsetPos))
+                {
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Title = "Save as..";
+                    sfd.Filter = "All Danganronpa Script files |*.lin";
+                    sfd.FileName = System.IO.Path.GetFileName(openFileDialog1.FileName);
+                    DialogResult dr = sfd.ShowDialog();
+                    if (dr == DialogResult.OK)
+                    {
+                        System.IO.File.WriteAllBytes(sfd.FileName, file);
+                    }
+                }
+                else { MessageBox.Show("Ops, your file have incorrect offsets...\nPlease try save again...", "LBE - Fail to Save", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
             button1.Enabled = SaveEnable;
         }
-        
+
+        private bool Test(string[] file, int TreeOffsetPos)
+        {
+            int Postion = TreeOffsetPos;
+            int count = Tools.HexToInt(GetOffset(file, TreeOffsetPos));
+            if (count != Dialogues.Length)
+                return false;
+            Next:;
+            Postion += 4;
+            int offset = Tools.HexToInt(GetOffset(file, Postion)) + TreeOffsetPos;
+            if (offset >= Dialogues[0].StartPos)
+                return true;
+
+            title = "LBE - Testing File: " + offset + "/" + Dialogues[0].StartPos;
+            if (file[offset] + file[offset + 1] != "FFFE")
+                return false;
+            goto Next;
+        }
+
+        private string GetOffset(string[] file, int treeOffsetPos)
+        {
+            try
+            {
+                return file[treeOffsetPos + 3] + file[treeOffsetPos + 2] + file[treeOffsetPos + 1] + file[treeOffsetPos];
+            }
+            catch { return "0000"; }
+
+        }
+
+
         private void DialogContent_KeyPress(object sender, KeyPressEventArgs e)
         {
         }
@@ -291,11 +325,14 @@ namespace LBE
             int pos = 0;
             for (int i = ScriptTreeOffsetPos; i < Dialogues[0].StartPos; i++)
             {
-                if (pos >= OffsetTree.Length)
-                    WriteOffset(TreeID);
-                NewScript[i] = OffsetTree[pos];
-                pos++;
-            }
+                try {
+                    if (pos >= OffsetTree.Length)
+                        WriteOffset(TreeID);
+                    NewScript[i] = OffsetTree[pos];
+                    pos++;
+                }
+                catch { }
+                }
             string bytes = "";
             foreach (string hex in NewScript)
                 bytes += hex;
