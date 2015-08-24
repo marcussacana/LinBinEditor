@@ -107,6 +107,9 @@ AutoTest.Net/
 # Web workbench (sass)
 .sass-cache/
 
+# VS15 Temp Files
+.vs/
+
 # Installshield output folder
 [Ee]xpress/
 
