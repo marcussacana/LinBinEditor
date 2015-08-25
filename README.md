@@ -1,4 +1,3 @@
 # LinBinEditor
-A tool to translate the Danganronpa 2 lin files
-The tool use simple commands from C# but a little hard to understand,
-#good lucky on your translate project!
+A tool to translate Super Danganronpa 2 lin files. Programmed with simple C#, but a little bit hard to understand.
+#Good luck with your translation project!
